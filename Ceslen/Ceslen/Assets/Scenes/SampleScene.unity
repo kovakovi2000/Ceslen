@@ -606,8 +606,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 140
+  near clip plane: 40
+  far clip plane: 67
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -1460,6 +1460,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 31650672637584874, guid: 2a1b0a0d6050c394a83118579ccea93c,
         type: 3}
+    - target: {fileID: 6245396965863296424, guid: cc39d5522b0306f49880a784546ba4eb,
+        type: 3}
+      propertyPath: MainCamera
+      value: 
+      objectReference: {fileID: 785959613}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc39d5522b0306f49880a784546ba4eb, type: 3}
 --- !u!1 &1640558463
@@ -1804,6 +1809,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1838939902}
   m_CullTransparentMesh: 0
+--- !u!1 &1952763541 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2942664716925013138, guid: cc39d5522b0306f49880a784546ba4eb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1551366693}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1952763543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952763541}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60d10cc8576a4544480a3719b42e01c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1976601821
 GameObject:
   m_ObjectHideFlags: 0

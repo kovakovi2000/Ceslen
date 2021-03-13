@@ -51,6 +51,8 @@ public class MapGenerator : MonoBehaviour
     public GameObject PuppetTrigger; //Prefab ami tarlamazza a bábuk leraksi helyét
     private static List<List<Cor>> GridElementList = new List<List<Cor>>(); //Egy 2D list ami hexagonokat tárolja + Generálási információkat
 
+    public Camera MainCamera;
+
     
     private class Cor
     {
@@ -97,6 +99,7 @@ public class MapGenerator : MonoBehaviour
             bool RemoveLakes,
             int LakeSensivity,
             int LakesRecheck,
+            Camera MainCamera,
             bool SlowGenerateIland = false,
             bool SlowGenerateIlandHexagon = false,
             bool SlowGenerateIlandHexagonLayer = false,
@@ -282,12 +285,43 @@ public class MapGenerator : MonoBehaviour
             #endif
             #endregion
 
+            #region CameraBorder
+            for (int x = 0; x < xMax; x++)
+            {
+                for (int y = 0; y < yMax; y++)
+                {
+                    if (MainCamera.GetComponent<SideMoveCamera>().MaxDown > GridElementList[x][y].GameObject.transform.position.z)
+                        MainCamera.GetComponent<SideMoveCamera>().MaxDown = (int)GridElementList[x][y].GameObject.transform.position.z;
+
+                    if (MainCamera.GetComponent<SideMoveCamera>().MaxUp < GridElementList[x][y].GameObject.transform.position.z)
+                        MainCamera.GetComponent<SideMoveCamera>().MaxUp = (int)GridElementList[x][y].GameObject.transform.position.z;
+
+
+                    if (MainCamera.GetComponent<SideMoveCamera>().MaxLeft > GridElementList[x][y].GameObject.transform.position.x)
+                        MainCamera.GetComponent<SideMoveCamera>().MaxLeft = (int)GridElementList[x][y].GameObject.transform.position.x;
+
+                    if (MainCamera.GetComponent<SideMoveCamera>().MaxRight < GridElementList[x][y].GameObject.transform.position.x)
+                        MainCamera.GetComponent<SideMoveCamera>().MaxRight = (int)GridElementList[x][y].GameObject.transform.position.x;
+                }
+            }
+            Debug.Log($"MaxDown: {MainCamera.GetComponent<SideMoveCamera>().MaxDown} | MaxUp: {MainCamera.GetComponent<SideMoveCamera>().MaxUp} | MaxLeft: {MainCamera.GetComponent<SideMoveCamera>().MaxLeft} | MaxRight: {MainCamera.GetComponent<SideMoveCamera>().MaxRight}");
+            MainCamera.GetComponent<SideMoveCamera>().Offset();
+            #endregion
+
+#if _DEBUG
+            MainCamera.backgroundColor = Color.blue;
+                Debug.Log("Camera border done!"); yield return null;
+            #endif
+
             #if _DEBUG
                 Debug.LogWarning("Generation done!");
+                int MapElementCount = 0;
+                for (int i = 0; i < transform.childCount; i++)
+                    MapElementCount += transform.GetChild(i).childCount;
+                Debug.Log($"Generated total object count: {UnityEngine.Object.FindObjectsOfType<GameObject>().Count()} | MapElement: {MapElementCount}");
 #endif
 
-            GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
-            Debug.Log("Generated total object count:" + allObjects.Count());
+            transform.GetComponent<MapVisibility>().enabled = true;
         }
 
         private static float MarginMultiple(int x, int y, int xMax, int yMax, float MarginPresent, float MarginSensivity)
@@ -379,13 +413,15 @@ public class MapGenerator : MonoBehaviour
             RemoveLakes, 
             LakeSensivity, 
             LakesRecheck,
+            MainCamera,
             SG_Iland,
             SG_IlandHexagon,
             SG_IlandHexagonLayer,
             SG_LakeRemove,
             SG_LakeRemoveLayer,
             SG_PuppetTriggers,
-            SG_PathTriggers));
+            SG_PathTriggers
+            ));
     }
 
     // Update is called once per frame

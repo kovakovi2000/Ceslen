@@ -34,14 +34,14 @@ public class InputHandler : MonoBehaviour
 
 
         Sides = Vector2.zero;
-        if (Input.mousePosition.y > Screen.height - 5)
+        if (Input.mousePosition.y > Screen.height - 5 && !MiddleClick.pressing)
             Sides.y = 3f;
-        else if (Input.mousePosition.y < 5)
+        else if (Input.mousePosition.y < 5 && !MiddleClick.pressing)
             Sides.y = -3f;
 
-        if (Input.mousePosition.x > Screen.width - 5)
+        if (Input.mousePosition.x > Screen.width - 5 && !MiddleClick.pressing)
             Sides.x = 3f;
-        else if (Input.mousePosition.x < 5)
+        else if (Input.mousePosition.x < 5 && !MiddleClick.pressing)
             Sides.x = -3f;
     }
 }

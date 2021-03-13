@@ -4,12 +4,30 @@ using UnityEngine;
 
 public class SideMoveCamera : MonoBehaviour
 {
+    private int maxDown = int.MaxValue;
+    private int maxUp = int.MinValue;
+    private int maxLeft = int.MaxValue;
+    private int maxRight = int.MinValue;
+
     GameObject mCamera;
     public GameObject inputHandler;
     InputHandler IH;
     bool m = false;
     Vector2 mStart;
     Vector3 cStart;
+
+    public int MaxDown { get => maxDown; set => maxDown = value; }
+    public int MaxUp { get => maxUp; set => maxUp = value; }
+    public int MaxLeft { get => maxLeft; set => maxLeft = value; }
+    public int MaxRight { get => maxRight; set => maxRight = value; }
+
+    public void Offset()
+    {
+        maxUp -= 50;
+        maxDown -= 10;
+        maxLeft += 45;
+        MaxRight -= 45;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -45,10 +63,10 @@ public class SideMoveCamera : MonoBehaviour
 
         if (v3 != -Vector3.one)
         {
-            if (v3.z > 242) v3.z = 242;
-            if (v3.z < 0) v3.z = 0;
-            if (v3.x < 40) v3.x = 40;
-            if (v3.x > 260) v3.x = 260;
+            if (v3.z > maxUp) v3.z = maxUp;//242
+            if (v3.z < maxDown) v3.z = maxDown;//0
+            if (v3.x < maxLeft) v3.x = maxLeft;//40
+            if (v3.x > maxRight) v3.x = maxRight;//260
             mCamera.transform.position = v3;
         }
     }
