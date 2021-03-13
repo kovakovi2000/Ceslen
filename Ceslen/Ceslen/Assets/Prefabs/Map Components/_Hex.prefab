@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1695022386054935780
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1603616381287846840}
+  - component: {fileID: 214725729118903238}
+  m_Layer: 0
+  m_Name: _Hex
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1603616381287846840
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695022386054935780}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 443.72125, y: -0.05, z: 506.71805}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &214725729118903238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695022386054935780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ddb4e496af28b2448975d72c9cd8e91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HexType: 0
+  Land: 0
+  SeaObject: {fileID: 7523349941622199845, guid: 86e2ba17849259a4196db4617efbf992,
+    type: 3}
+  ClayObject: {fileID: 8324365175795108325, guid: dd42b915430470946ada6963576f70c6,
+    type: 3}
+  DesertObject: {fileID: 8405399119929056770, guid: ce1dee7c84669ea439a1ce1a9b973b5d,
+    type: 3}
+  FeildObject: {fileID: 1529615519350255718, guid: 2abccc9edff53fe4fbaedb5db24c182c,
+    type: 3}
+  MineralObject: {fileID: 2867922858086509056, guid: 303a6a42edbd1ef49b8019829e8e2d5b,
+    type: 3}
+  WheatObject: {fileID: 5058969281400216818, guid: f03e3e626eeeb0642ac88f9fbc779d6a,
+    type: 3}
+  WoodObject: {fileID: 7523349941622199845, guid: 51faec97293f00c4b86e170c858aa7a8,
+    type: 3}
+  PuppetTrigger: {fileID: 31650672637584874, guid: 2a1b0a0d6050c394a83118579ccea93c,
+    type: 3}

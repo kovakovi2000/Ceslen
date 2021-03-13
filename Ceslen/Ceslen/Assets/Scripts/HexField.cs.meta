@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: 9ddb4e496af28b2448975d72c9cd8e91
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - SeaObject: {fileID: 7523349941622199845, guid: 86e2ba17849259a4196db4617efbf992,
+      type: 3}
+  - ClayObject: {fileID: 8324365175795108325, guid: dd42b915430470946ada6963576f70c6,
+      type: 3}
+  - DesertObject: {fileID: 8405399119929056770, guid: ce1dee7c84669ea439a1ce1a9b973b5d,
+      type: 3}
+  - FeildObject: {fileID: 1529615519350255718, guid: 2abccc9edff53fe4fbaedb5db24c182c,
+      type: 3}
+  - MineralObject: {fileID: 2867922858086509056, guid: 303a6a42edbd1ef49b8019829e8e2d5b,
+      type: 3}
+  - WheatObject: {fileID: 5058969281400216818, guid: f03e3e626eeeb0642ac88f9fbc779d6a,
+      type: 3}
+  - WoodObject: {fileID: 7523349941622199845, guid: 51faec97293f00c4b86e170c858aa7a8,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
