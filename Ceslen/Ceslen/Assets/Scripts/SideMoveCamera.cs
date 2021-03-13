@@ -9,24 +9,36 @@ public class SideMoveCamera : MonoBehaviour
     private int maxLeft = int.MaxValue;
     private int maxRight = int.MinValue;
 
+    private int offsetDown = -10;
+    private int offsetUp = -50;
+    private int offsetLeft = 45;
+    private int offsetRight = -45;
+
     GameObject mCamera;
     public GameObject inputHandler;
     InputHandler IH;
     bool m = false;
     Vector2 mStart;
     Vector3 cStart;
+    bool changed = false;
 
     public int MaxDown { get => maxDown; set => maxDown = value; }
     public int MaxUp { get => maxUp; set => maxUp = value; }
     public int MaxLeft { get => maxLeft; set => maxLeft = value; }
     public int MaxRight { get => maxRight; set => maxRight = value; }
 
+    public int OffsetDown { get => offsetDown; }
+    public int OffsetUp { get => offsetUp; }
+    public int OffsetLeft { get => offsetLeft; }
+    public int OffsetRight { get => offsetRight; }
+    public bool Changed { get => changed; set => changed = value; }
+
     public void Offset()
     {
-        maxUp -= 50;
-        maxDown -= 10;
-        maxLeft += 45;
-        MaxRight -= 45;
+        maxDown += offsetDown;
+        maxUp += offsetUp;
+        maxLeft += offsetLeft;
+        MaxRight += offsetRight;
     }
 
     // Start is called before the first frame update
@@ -68,6 +80,7 @@ public class SideMoveCamera : MonoBehaviour
             if (v3.x < maxLeft) v3.x = maxLeft;//40
             if (v3.x > maxRight) v3.x = maxRight;//260
             mCamera.transform.position = v3;
+            changed = true;
         }
     }
 }
