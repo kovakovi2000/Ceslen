@@ -9,10 +9,10 @@ public class SideMoveCamera : MonoBehaviour
     private int maxLeft = int.MaxValue;
     private int maxRight = int.MinValue;
 
-    private int offsetDown = -10;
-    private int offsetUp = -50;
-    private int offsetLeft = 45;
-    private int offsetRight = -45;
+    private int offsetDown = -1;
+    private int offsetUp = -59;
+    private int offsetLeft = 65;
+    private int offsetRight = -65;
 
     GameObject mCamera;
     public GameObject inputHandler;

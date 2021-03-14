@@ -41,10 +41,10 @@ public class MapVisibility : MonoBehaviour
 
     private bool InView(Transform t)
     {
-        if (t.position.z > (MCT.position.z + SMC.OffsetDown) && 
-            t.position.z < (MCT.position.z - SMC.OffsetUp + 20) &&
-            t.position.x < (MCT.position.x + SMC.OffsetLeft + 30) &&
-            t.position.x > (MCT.position.x + SMC.OffsetRight - 30))
+        if (t.position.z > (MCT.position.z + -10) && 
+            t.position.z < (MCT.position.z + 70) &&
+            t.position.x < (MCT.position.x + 75) &&
+            t.position.x > (MCT.position.x - 75))
             return true;
 
         return false;

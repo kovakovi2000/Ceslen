@@ -54,6 +54,8 @@ public class MapGenerator : MonoBehaviour
     public Camera MainCamera;
     public Camera MiniMapCamera;
     public RenderTexture MiniMapOverLay;
+
+    private static System.Random RND = new System.Random();
     
     private class Cor
     {
@@ -142,7 +144,7 @@ public class MapGenerator : MonoBehaviour
                 var IstandCore = GetHexBy2dV(GetRandomHexOnGrid(xMax, yMax, MarginPresent), GridElementList); //Egy Random kiválasztott Hexagon a pályán a Margin szabálya szerint
                 if (trys > 30)//Egy biztonsági elleőrzés ami amiatt kell ha végtelen ciklusba esne a DoIlandOnlyOnSea miatt
                 {
-                    Debug.LogError("FUCK I CAN'T GENERATE THE REQUERD LAND COUNT!");
+                    Debug.LogError("F*CK I CAN'T GENERATE THE REQUERD LAND COUNT!");
                     break;
                 }
                 if (DoIlandOnlyOnSea && GetHexAround(IstandCore.Cordinate, GridElementList).Where(x => x.HexField.HexType != HexField.hexType.Sea).Count() != 0)
@@ -237,8 +239,35 @@ public class MapGenerator : MonoBehaviour
 
             //TODO generate field types
             #region FieldType
+
+            //Azt egészet vissza alakítja vizzé, hogy ne befolyásolja a type-ok kiosztását
+            for (int x = 0; x < xMax; x++)
+                for (int y = 0; y < yMax; y++)
+                    GridElementList[x][y].HexField.UpdateHexType(HexField.hexType.Sea);
+            yield return null; //KELL MERT KÜLÖNBEN BUGGOS
+            int war = 0;
+            for (int x = 0; x < xMax; x++)
+            {
+                for (int y = 0; y < yMax; y++)
+                {
+                    
+                    var item = GridElementList[x][y];
+                    if (item.Update == 1)
+                    {
+                        var t = GenerateType(GetHexAround(item.Cordinate, GridElementList));
+                        if (t == HexField.hexType.Sea)
+                            war++;
+                        item.HexField.UpdateHexType(t);
+                        item.Update = 2;
+                        //yield return null;
+                    }
+                }
+            }
+            if(war != 0)
+                Debug.LogWarning("HexTypeGeneration Warings: " + war);
             #endregion
 
+            //Minimap csinál egy kép előszőr a kigenerát pályáról, majd egy másik renderTexture-re vált ami egy overlay az előző kép felett a UI-ban.
             #region MiniMap
             MiniMapCamera.enabled = true;
             yield return null;
@@ -322,12 +351,12 @@ public class MapGenerator : MonoBehaviour
             }
             Debug.Log($"MaxDown: {MainCamera.GetComponent<SideMoveCamera>().MaxDown} | MaxUp: {MainCamera.GetComponent<SideMoveCamera>().MaxUp} | MaxLeft: {MainCamera.GetComponent<SideMoveCamera>().MaxLeft} | MaxRight: {MainCamera.GetComponent<SideMoveCamera>().MaxRight}");
             MainCamera.GetComponent<SideMoveCamera>().Offset();
-            #endregion
 
-#if _DEBUG
-            MainCamera.backgroundColor = Color.blue;
+            #if _DEBUG
+                MainCamera.backgroundColor = Color.magenta;
                 Debug.Log("Camera border done!"); yield return null;
             #endif
+            #endregion
 
             #if _DEBUG
                 Debug.LogWarning("Generation done!");
@@ -335,9 +364,51 @@ public class MapGenerator : MonoBehaviour
                 for (int i = 0; i < transform.childCount; i++)
                     MapElementCount += transform.GetChild(i).childCount;
                 Debug.Log($"Generated total object count: {UnityEngine.Object.FindObjectsOfType<GameObject>().Count()} | MapElement: {MapElementCount}");
-#endif
+            #endif
 
             transform.GetComponent<MapVisibility>().enabled = true;
+        }
+
+        private static HexField.hexType GenerateType(List<Cor> HexAround)
+        {
+            HexField.hexType re;
+            do
+            {
+                re = (HexField.hexType)(RND.Next((Enum.GetValues(typeof(HexField.hexType)).Length - 1)) + 1);
+            } while (HexAround.Where(x => x.HexField.HexType == re).Count() > 0);
+            return re;
+
+
+            Dictionary<HexField.hexType, float> chnc = new Dictionary<HexField.hexType, float>();
+
+            float OverAll = 0f;
+            foreach (HexField.hexType item in Enum.GetValues(typeof(HexField.hexType)))
+            {
+                float Value = HexAround.Where(x => x.HexField.HexType == item).Count() > 0 || item == HexField.hexType.Sea ? 0.0000001f : 1f;
+                chnc.Add(item, Value);
+                OverAll += Value;
+            }
+            
+            float next;
+            do
+            {
+                next = (float)RND.NextDouble();
+            } while (next == 0f || next == 1f);
+
+            float rnd = OverAll * next;
+            float cOld = 0f;
+            float cNew = 0f;
+
+            foreach (var item in chnc)
+            {
+                cOld = cNew;
+                cNew += item.Value;
+                if (cOld < rnd && rnd < cNew)
+                    return item.Key;
+            }
+
+            Debug.LogError("SHIT");
+            return HexField.hexType.Sea;
         }
 
         private static float MarginMultiple(int x, int y, int xMax, int yMax, float MarginPresent, float MarginSensivity)
