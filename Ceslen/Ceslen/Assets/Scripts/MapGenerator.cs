@@ -52,7 +52,8 @@ public class MapGenerator : MonoBehaviour
     private static List<List<Cor>> GridElementList = new List<List<Cor>>(); //Egy 2D list ami hexagonokat tárolja + Generálási információkat
 
     public Camera MainCamera;
-
+    public Camera MiniMapCamera;
+    public RenderTexture MiniMapOverLay;
     
     private class Cor
     {
@@ -100,6 +101,8 @@ public class MapGenerator : MonoBehaviour
             int LakeSensivity,
             int LakesRecheck,
             Camera MainCamera,
+            Camera MiniMapCamera,
+            RenderTexture MiniMapOverLay,
             bool SlowGenerateIland = false,
             bool SlowGenerateIlandHexagon = false,
             bool SlowGenerateIlandHexagonLayer = false,
@@ -229,10 +232,23 @@ public class MapGenerator : MonoBehaviour
             }
             #if _DEBUG
                 Debug.Log("Lakes Remove done!"); yield return null;
-            #endif
+#endif
             #endregion
 
             //TODO generate field types
+            #region FieldType
+            #endregion
+
+            #region MiniMap
+            MiniMapCamera.enabled = true;
+            yield return null;
+            MiniMapCamera.enabled = false;
+
+            MiniMapCamera.nearClipPlane = 201;
+            MiniMapCamera.farClipPlane = 205;
+            MiniMapCamera.targetTexture = MiniMapOverLay;
+            MiniMapCamera.enabled = true;
+            #endregion
 
             #region Triggers
 
@@ -414,6 +430,8 @@ public class MapGenerator : MonoBehaviour
             LakeSensivity, 
             LakesRecheck,
             MainCamera,
+            MiniMapCamera,
+            MiniMapOverLay,
             SG_Iland,
             SG_IlandHexagon,
             SG_IlandHexagonLayer,
