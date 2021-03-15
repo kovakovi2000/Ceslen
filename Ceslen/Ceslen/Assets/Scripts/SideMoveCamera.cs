@@ -49,6 +49,7 @@ public class SideMoveCamera : MonoBehaviour
     }
 
     // Update is called once per frame
+    Vector3 v3Old = Vector3.one;
     void FixedUpdate()
     {
         Vector3 v3 = -Vector3.one;
@@ -80,9 +81,14 @@ public class SideMoveCamera : MonoBehaviour
             if (v3.x < maxLeft) v3.x = maxLeft;//40
             if (v3.x > maxRight) v3.x = maxRight;//260
             mCamera.transform.position = v3;
-            changed = true;
+            if (v3Old != v3)
+            {
+                v3Old = v3;
+                changed = true;
+            }
+            else
+                changed = false;
         }
-
         mCamera.fieldOfView = 20f + IH.Zoom;
     }
 }

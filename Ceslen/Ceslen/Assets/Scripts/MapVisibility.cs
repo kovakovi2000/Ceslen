@@ -11,6 +11,8 @@ public class MapVisibility : MonoBehaviour
     PlaceModel PM;
     GameObject[] physicsGameObject;
     GameObject[] renderGameObject;
+
+    bool lPM_HoldingPuppet = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,16 +32,17 @@ public class MapVisibility : MonoBehaviour
         for (int i = 0; i < pathTriggerCount; i++)
             physicsGameObject[puppetTriggerCount + i] = transform.GetChild(2).GetChild(i).gameObject;
 
-
-        //foreach (var item in physicsGameObject)
-        //    item.SetActive(false);
         foreach (var item in renderGameObject)
+            item.SetActive(false);
+        foreach (var item in physicsGameObject)
             item.SetActive(false);
 
         SMC = MainCamera.GetComponent<SideMoveCamera>();
         MCT = MainCamera.transform;
         PM = ModelRay.GetComponent<PlaceModel>();
         Debug.LogWarning("Map visibility done!");
+
+        lPM_HoldingPuppet = PM.HoldingPuppet;
     }
 
     private bool InView(Transform t)
@@ -56,30 +59,31 @@ public class MapVisibility : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!SMC.Changed)
-            return;
-
-        foreach (var item in renderGameObject)
-        {
-            if (InView(item.transform))
-                item.SetActive(true);
-            else
-                item.SetActive(false);
-        }
-
-        if (PM.HoldingPuppet)
-            foreach (var item in physicsGameObject)
+        if (SMC.Changed)
+            foreach (var item in renderGameObject)
             {
                 if (InView(item.transform))
                     item.SetActive(true);
                 else
                     item.SetActive(false);
             }
-        else
-            foreach (var item in physicsGameObject)
-                item.SetActive(false);
 
 
 
+        if (lPM_HoldingPuppet != PM.HoldingPuppet)
+        {
+            lPM_HoldingPuppet = PM.HoldingPuppet;
+            if (PM.HoldingPuppet)
+                foreach (var item in physicsGameObject)
+                {
+                    if (InView(item.transform))
+                        item.SetActive(true);
+                    else
+                        item.SetActive(false);
+                }
+            else
+                foreach (var item in physicsGameObject)
+                    item.SetActive(false);
+        }
     }
 }
