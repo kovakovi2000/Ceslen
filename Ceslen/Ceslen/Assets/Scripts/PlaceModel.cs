@@ -7,23 +7,25 @@ public class PlaceModel : MonoBehaviour
     public GameObject InputHandler;
     public GameObject PreViewerHold;
     private GameObject Puppet = null;
-    private bool HoldingPuppet = false;
+    private bool holdingPuppet = false;
     private bool GotLocation = false;
+
+    public bool HoldingPuppet { get => holdingPuppet; }
 
     void LateUpdate()
     {
-        if (!HoldingPuppet && Button.GetComponent<PressingUIButton>().Pressing && InputHandler.GetComponent<InputHandler>().LeftClick.pressing)
+        if (!holdingPuppet && Button.GetComponent<PressingUIButton>().Pressing && InputHandler.GetComponent<InputHandler>().LeftClick.pressing)
         {
             if (PreViewerHold.transform.childCount > 0)
             {
                 Puppet = PreViewerHold.transform.GetChild(0).gameObject;
-                HoldingPuppet = true;
+                holdingPuppet = true;
             }
         }
 
-        if (HoldingPuppet && !InputHandler.GetComponent<InputHandler>().LeftClick.pressing)
+        if (holdingPuppet && !InputHandler.GetComponent<InputHandler>().LeftClick.pressing)
         {
-            HoldingPuppet = false;
+            holdingPuppet = false;
             if (!GotLocation)
             {
                 Puppet.transform.parent = PreViewerHold.transform;
@@ -36,7 +38,7 @@ public class PlaceModel : MonoBehaviour
 
 
 
-        if (HoldingPuppet)
+        if (holdingPuppet)
         {
             if (Button.GetComponent<PressingUIButton>().Hover)
             {

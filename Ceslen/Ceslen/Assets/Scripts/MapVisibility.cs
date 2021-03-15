@@ -7,6 +7,8 @@ public class MapVisibility : MonoBehaviour
     public GameObject MainCamera;
     SideMoveCamera SMC;
     Transform MCT;
+    public GameObject ModelRay;
+    PlaceModel PM;
     GameObject[] physicsGameObject;
     GameObject[] renderGameObject;
     // Start is called before the first frame update
@@ -36,6 +38,7 @@ public class MapVisibility : MonoBehaviour
 
         SMC = MainCamera.GetComponent<SideMoveCamera>();
         MCT = MainCamera.transform;
+        PM = ModelRay.GetComponent<PlaceModel>();
         Debug.LogWarning("Map visibility done!");
     }
 
@@ -63,6 +66,20 @@ public class MapVisibility : MonoBehaviour
             else
                 item.SetActive(false);
         }
+
+        if (PM.HoldingPuppet)
+            foreach (var item in physicsGameObject)
+            {
+                if (InView(item.transform))
+                    item.SetActive(true);
+                else
+                    item.SetActive(false);
+            }
+        else
+            foreach (var item in physicsGameObject)
+                item.SetActive(false);
+
+
 
     }
 }
