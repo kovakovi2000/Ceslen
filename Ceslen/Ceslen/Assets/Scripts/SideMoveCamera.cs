@@ -14,7 +14,7 @@ public class SideMoveCamera : MonoBehaviour
     private int offsetLeft = 65;
     private int offsetRight = -65;
 
-    GameObject mCamera;
+    Camera mCamera;
     public GameObject inputHandler;
     InputHandler IH;
     bool m = false;
@@ -44,7 +44,7 @@ public class SideMoveCamera : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mCamera = Camera.main.gameObject;
+        mCamera = Camera.main;
         IH = inputHandler.GetComponent<InputHandler>();
     }
 
@@ -82,5 +82,7 @@ public class SideMoveCamera : MonoBehaviour
             mCamera.transform.position = v3;
             changed = true;
         }
+
+        mCamera.fieldOfView = 20f + IH.Zoom;
     }
 }

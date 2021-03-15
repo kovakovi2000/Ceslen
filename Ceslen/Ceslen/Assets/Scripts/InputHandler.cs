@@ -7,7 +7,8 @@ public class InputHandler : MonoBehaviour
     public Vector2 Sides = Vector2.zero;
     public KeyButton LeftClick = new KeyButton();
     public KeyButton MiddleClick = new KeyButton();
-    
+    public float Zoom = 40f;
+
     // Update is called once per frame
     void Update()
     {
@@ -32,6 +33,18 @@ public class InputHandler : MonoBehaviour
             MiddleClick.pressing = false;
         }
 
+        if (Input.GetAxis("Mouse ScrollWheel") < 0f) // backwards
+        {
+            Zoom *= 1.1f;
+            if (Zoom > 40f)
+                Zoom = 40f;
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") > 0f) // forward
+        {
+            Zoom /= 1.1f;
+            if (Zoom < 1f)
+                Zoom = 1f;
+        }
 
         Sides = Vector2.zero;
         if (Input.mousePosition.y > Screen.height - 5 && !MiddleClick.pressing)

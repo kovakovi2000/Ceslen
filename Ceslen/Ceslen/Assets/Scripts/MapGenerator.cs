@@ -191,7 +191,8 @@ public class MapGenerator : MonoBehaviour
                 if (SlowGenerateIland)
                     yield return null;
             }
-            Debug.Log("Ilands Generation done!"); yield return null;
+            Debug.Log("Ilands Generation done!");
+            yield return null;
             #endregion
 
             //Eltávolítja a tavakat és kisímítja a tengerpartokat
@@ -367,6 +368,7 @@ public class MapGenerator : MonoBehaviour
             #endif
 
             transform.GetComponent<MapVisibility>().enabled = true;
+            MainCamera.GetComponent<SideMoveCamera>().enabled = true;
         }
 
         private static HexField.hexType GenerateType(List<Cor> HexAround)

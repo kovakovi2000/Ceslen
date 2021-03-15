@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sides: {x: 0, y: 0}
+  Zoom: 40
 --- !u!4 &89589491
 Transform:
   m_ObjectHideFlags: 0
@@ -705,7 +706,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 785959610}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12f71d034731e454a9892f14b59dc822, type: 3}
   m_Name: 
@@ -1629,6 +1630,16 @@ PrefabInstance:
       propertyPath: MiniMapOverLay
       value: 
       objectReference: {fileID: 8400000, guid: c7cbe4fbd03a2924bb759c45412222ae, type: 2}
+    - target: {fileID: 6245396965863296424, guid: cc39d5522b0306f49880a784546ba4eb,
+        type: 3}
+      propertyPath: SG_IlandHexagonLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6245396965863296424, guid: cc39d5522b0306f49880a784546ba4eb,
+        type: 3}
+      propertyPath: SG_LakeRemoveLayer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc39d5522b0306f49880a784546ba4eb, type: 3}
 --- !u!1 &1640558463
@@ -2103,7 +2114,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1992300617}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -200, y: 0, z: -200}
+  m_LocalPosition: {x: -235, y: 0, z: -200}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1228480077}
@@ -2133,7 +2144,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 50
+  far clip plane: 15
   field of view: 60
   orthographic: 1
   orthographic size: 5
