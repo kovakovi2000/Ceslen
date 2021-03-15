@@ -2003,6 +2003,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainCamera: {fileID: 785959610}
+  ModelRay: {fileID: 223895664}
 --- !u!1 &1976601821
 GameObject:
   m_ObjectHideFlags: 0
