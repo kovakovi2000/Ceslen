@@ -711,6 +711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12f71d034731e454a9892f14b59dc822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ModelRay: {fileID: 223895664}
   inputHandler: {fileID: 89589489}
 --- !u!1 &845488160
 GameObject:

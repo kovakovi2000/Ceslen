@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PuppetTrigger : MonoBehaviour
 {
+    public GameObject Puppet = null;
     private GameObject[] connectedField = new GameObject[3];
     private GameObject[] connectedPath = new GameObject[3];
     private byte fEmpty = 0;
@@ -19,7 +20,7 @@ public class PuppetTrigger : MonoBehaviour
     {
         for (int i = 0; i < connectedField.Length && fEmpty < this.connectedField.Length; i++)
         {
-            if (this.connectedField.Contains(connectedField[i]))
+            if (this.connectedField.Contains(connectedField[i]))//csak akkor adja hozzá ha még nem szerepel a meglévők között
                 continue;
 
             this.connectedField[fEmpty] = connectedField[i];
@@ -41,14 +42,18 @@ public class PuppetTrigger : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "PuppetTrigger")
+        /* 
+         * Generáláskor több trigger is kerül egy helyre majd van utánna egy frame-se várakoztatás, akkor itt a collison meghívodik
+         * és az egymásra helyezett triggerekből csak a legújabb trigger marad fent amit InstanceId alapján határozok meg
+         */
+        if (collision.gameObject.tag == "PuppetTrigger")//ha egy azonos object-es "ütküzik"
         {
-            AddField(collision.gameObject.GetComponent<PuppetTrigger>().ConnectedField);
-            if (collision.gameObject.GetInstanceID() < transform.gameObject.GetInstanceID())
+            AddField(collision.gameObject.GetComponent<PuppetTrigger>().ConnectedField);//olvassa át a másik triggerből a saját field-jeit (azokat mikkel nem redelkezik még)
+            if (collision.gameObject.GetInstanceID() < transform.gameObject.GetInstanceID()) //Ha a jelenlegi triggernek nagyobb az ID-ja (azaz újabb) akkor törli a régebbit
                 Destroy(collision.gameObject, 0.0f);
         }
 
-        if (collision.gameObject.name.Contains("City") || collision.gameObject.name.Contains("Town"))
+        if (collision.gameObject.name.Contains("City") || collision.gameObject.name.Contains("Town")) //Ha várossal vagy falu bábúval "ütközik" akkor hozzá adja magát a bábúhoz (használva a PlaceModel.cs-ben)
             collision.gameObject.GetComponent<Puppet>().TouchedTrigger = gameObject;
     }
 }

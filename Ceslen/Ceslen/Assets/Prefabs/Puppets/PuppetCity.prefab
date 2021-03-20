@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1288453047604641723}
   - component: {fileID: 4610743397112937577}
   - component: {fileID: -4679286918200798818}
+  - component: {fileID: 2934437381446274752}
   m_Layer: 0
   m_Name: PuppetCity
   m_TagString: Untagged
@@ -59,6 +60,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TouchedTrigger: {fileID: 0}
+  placed: 0
+--- !u!114 &2934437381446274752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921437891394675969}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2d33d58f0b01774eab5910f6137e18e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7433079536082574808
 GameObject:
   m_ObjectHideFlags: 0

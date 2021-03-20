@@ -282,7 +282,7 @@ public class MapGenerator : MonoBehaviour
 
             #region Triggers
 
-            //var Triggers = new List<GameObject>();
+            //Kigenerálja az össze bábú lehetséges lehelyézési pontját
             for (int x = 0; x < xMax; x++)
             {
                 for (int y = 0; y < yMax; y++)
@@ -297,20 +297,24 @@ public class MapGenerator : MonoBehaviour
             #endif
             yield return null; //Fontos mert ha nincs itt nem hivodik meg még a collision és összebuggolhat a SlowGeneratePathTriggers és amiatt is hogy még nem lettek a felesleges PuppetTriggerek eltüntetve
             var Triggers = GameObject.FindGameObjectsWithTag("PuppetTrigger");
+            //bejárja a meglévő bábú lehelyezési pontokat
             foreach (GameObject tr1 in Triggers)
             {
                 foreach (GameObject tr2 in Triggers)
                 {
-                    if (tr1 == tr2 || (tr1.transform.position - tr2.transform.position).sqrMagnitude > 35.6f)
+                    if (tr1 == tr2 || (tr1.transform.position - tr2.transform.position).sqrMagnitude > 35.6f) //azonos bábú helyeket átúgorja hogy önmagával ne legyen párba
                         continue;
 
+                    //A két vizsgált bábú hely közé lehelyet egy út helyet
                     GameObject pathtrigger = Instantiate(PathTriggerObject, new Vector3((tr1.transform.position.x + tr2.transform.position.x) / 2, 1, (tr1.transform.position.z + tr2.transform.position.z) / 2), new Quaternion());
-                    pathtrigger.transform.LookAt(tr1.transform.position);
-                    pathtrigger.transform.position += new Vector3(0.0f, -0.1f, 0.0f);
+                    pathtrigger.transform.LookAt(tr1.transform.position);//elforgatja hogy jó írányba nézzen
+                    pathtrigger.transform.position += new Vector3(0.0f, -0.1f, 0.0f);//egy kicsit lejebb helyezi hogy ne lebegjen
                     PathTrigger pt = pathtrigger.GetComponent<PathTrigger>();
-                    pt.AddPuppet(new GameObject[] { tr1,tr2 });
-                    pt.AddField(tr1.GetComponent<PuppetTrigger>().ConnectedField);
+                    pt.AddPuppet(new GameObject[] { tr1,tr2 }); //Hozzáadja a 2 bábú helyet ami által létre lett hozva
+                    //hozzáadja azokat a mezőket amiből nyersanyakot kaphat
+                    pt.AddField(tr1.GetComponent<PuppetTrigger>().ConnectedField); 
                     pt.AddField(tr2.GetComponent<PuppetTrigger>().ConnectedField);
+                    //Áthelyezi a megfelelő gameobject alá
                     pathtrigger.transform.parent = transform.GetChild(2);
 
                     if (SlowGeneratePathTriggers)
@@ -318,13 +322,12 @@ public class MapGenerator : MonoBehaviour
                 }
             }
             var Paths = GameObject.FindGameObjectsWithTag("PathTrigger");
+            //Bejárjuk az össze kigenerált út helyet
             foreach (var item in Paths)
             {
-                var pt = item.GetComponent<PathTrigger>().ConnectedPuppet;
-                for (int i = 0; i < pt.Length; i++)
-                {
-                    pt[i].GetComponent<PuppetTrigger>().AddPath(new GameObject[] { item });
-                }
+                var pt = item.GetComponent<PathTrigger>().ConnectedPuppet; //kikérjuk a az úthelyhez tartozó bábú helyket
+                for (int i = 0; i < pt.Length; i++)//majd bejárjuk
+                    pt[i].GetComponent<PuppetTrigger>().AddPath(new GameObject[] { item }); //és hozzá adjuk ezekhez a bábú helyekhez a a jelenlegi út helyeket
             }
             #if _DEBUG
                 Debug.Log("PathTriggers Generation done!"); yield return null;
@@ -380,7 +383,7 @@ public class MapGenerator : MonoBehaviour
             } while (HexAround.Where(x => x.HexField.HexType == re).Count() > 0);
             return re;
 
-
+            /*
             Dictionary<HexField.hexType, float> chnc = new Dictionary<HexField.hexType, float>();
 
             float OverAll = 0f;
@@ -411,6 +414,7 @@ public class MapGenerator : MonoBehaviour
 
             Debug.LogError("SHIT");
             return HexField.hexType.Sea;
+            */
         }
 
         private static float MarginMultiple(int x, int y, int xMax, int yMax, float MarginPresent, float MarginSensivity)

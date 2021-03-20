@@ -3,18 +3,24 @@
 public class PlaceModel : MonoBehaviour
 {
     public LayerMask clickMask;
-    public GameObject Button;
-    public GameObject InputHandler;
+    public GameObject Button; PressingUIButton BTN;
+    public GameObject InputHandler; InputHandler IH;
     public GameObject PreViewerHold;
     private GameObject Puppet = null;
     private bool holdingPuppet = false;
-    private bool GotLocation = false;
+    private bool gotLocation = false;
 
     public bool HoldingPuppet { get => holdingPuppet; }
 
+    void Start()
+    {
+        BTN = Button.GetComponent<PressingUIButton>();
+        IH = InputHandler.GetComponent<InputHandler>();
+    }
+
     void LateUpdate()
     {
-        if (!holdingPuppet && Button.GetComponent<PressingUIButton>().Pressing && InputHandler.GetComponent<InputHandler>().LeftClick.pressing)
+        if (!holdingPuppet && BTN.Pressing && IH.LeftClick.pressing)
         {
             if (PreViewerHold.transform.childCount > 0)
             {
@@ -23,15 +29,24 @@ public class PlaceModel : MonoBehaviour
             }
         }
 
-        if (holdingPuppet && !InputHandler.GetComponent<InputHandler>().LeftClick.pressing)
+        if (holdingPuppet && !IH.LeftClick.pressing)
         {
             holdingPuppet = false;
-            if (!GotLocation)
+            if (!gotLocation)
             {
                 Puppet.transform.parent = PreViewerHold.transform;
                 Puppet.transform.position = PreViewerHold.transform.position;
                 Puppet.transform.localScale = new Vector3(1f, 1f, 1f);
                 Puppet.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = new Color(1f, 1f, 1f, 1f);
+            }
+            else
+            {
+                var pt = Puppet.GetComponent<Puppet>();
+                if (pt.TouchedTrigger.gameObject.tag == "PuppetTrigger")
+                    pt.TouchedTrigger.GetComponent<PuppetTrigger>().Puppet = Puppet;
+                else
+                    pt.TouchedTrigger.GetComponent<PathTrigger>().Path = Puppet;
+                Puppet.GetComponent<CollectingBehaviour>().enabled = true;
             }
             Puppet = null;
         }
@@ -40,7 +55,7 @@ public class PlaceModel : MonoBehaviour
 
         if (holdingPuppet)
         {
-            if (Button.GetComponent<PressingUIButton>().Hover)
+            if (BTN.Hover)
             {
                 Puppet.transform.parent = PreViewerHold.transform;
                 Puppet.transform.position = PreViewerHold.transform.position;
@@ -71,7 +86,7 @@ public class PlaceModel : MonoBehaviour
                             Puppet.transform.position = TouchedTrigger.transform.position;
                             Puppet.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = new Color(0f, 1f, 0f, 1f);
                             Puppet.transform.rotation = TouchedTrigger.transform.rotation;
-                            GotLocation = true;
+                            gotLocation = true;
                         }
                         else
                             TouchedTrigger = null;
@@ -81,7 +96,7 @@ public class PlaceModel : MonoBehaviour
                     {
                         Puppet.transform.position = hitpoint;
                         Puppet.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = new Color(1f, 0f, 0f, 0.2f);
-                        GotLocation = false;
+                        gotLocation = false;
                     }
 
                 }

@@ -14,6 +14,8 @@ public class SideMoveCamera : MonoBehaviour
     private int offsetLeft = 65;
     private int offsetRight = -65;
 
+    public GameObject ModelRay;
+    PlaceModel PM;
     Camera mCamera;
     public GameObject inputHandler;
     InputHandler IH;
@@ -46,6 +48,7 @@ public class SideMoveCamera : MonoBehaviour
     {
         mCamera = Camera.main;
         IH = inputHandler.GetComponent<InputHandler>();
+        PM = ModelRay.GetComponent<PlaceModel>();
     }
 
     // Update is called once per frame
@@ -74,7 +77,7 @@ public class SideMoveCamera : MonoBehaviour
         }
 
 
-        if (v3 != -Vector3.one)
+        if (!PM.HoldingPuppet && v3 != -Vector3.one)
         {
             if (v3.z > maxUp) v3.z = maxUp;//242
             if (v3.z < maxDown) v3.z = maxDown;//0

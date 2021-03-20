@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5963438069166398436}
   m_Layer: 0
   m_Name: Fields
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 8445167737488852856}
   m_Layer: 0
   m_Name: PuppetTriggers
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 600799133540601389}
   m_Layer: 0
   m_Name: PathTriggers
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,6 +121,8 @@ Transform:
   - {fileID: 5963438069166398436}
   - {fileID: 8445167737488852856}
   - {fileID: 600799133540601389}
+  - {fileID: 114696409790488403}
+  - {fileID: 3320008274487020006}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -140,6 +142,7 @@ MonoBehaviour:
   GridY: 30
   MarginPresent: 14.5
   MarginSensivity: 47.75
+  DoIlandOnlyOnSea: 1
   IlandCount: 8
   IlandAvgSize: 0.75
   GrowMultiple: 0.9
@@ -151,4 +154,71 @@ MonoBehaviour:
   SG_IlandHexagonLayer: 1
   SG_LakeRemove: 0
   SG_LakeRemoveLayer: 1
+  SG_PuppetTriggers: 1
+  SG_PathTriggers: 1
   Hexagon: {fileID: 1695022386054935780, guid: 72618715fc00e3749ae9ff8ee4939512, type: 3}
+  PathTrigger: {fileID: 0}
+  PuppetTrigger: {fileID: 0}
+  MainCamera: {fileID: 0}
+  MiniMapCamera: {fileID: 0}
+  MiniMapOverLay: {fileID: 0}
+--- !u!1 &5589514760630401685
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 114696409790488403}
+  m_Layer: 0
+  m_Name: Puppets
+  m_TagString: Map
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &114696409790488403
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5589514760630401685}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5752137181287086727}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7644374114779765727
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3320008274487020006}
+  m_Layer: 0
+  m_Name: Paths
+  m_TagString: Map
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3320008274487020006
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7644374114779765727}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5752137181287086727}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -12,7 +12,9 @@ public class PreViewModel : MonoBehaviour
     private pwModel PWModel = pwModel.None;
     private pwModel current = pwModel.None;
 
+    
     public void SetModelNone() => PWModel = pwModel.None;
+    //Ezek a HUD/ObhectSelector-on belül OnClick()-en hívodnak meg
     public void SetModelCity() => PWModel = pwModel.City;
     public void SetModelTown() => PWModel = pwModel.Town;
     public void SetModelRoad() => PWModel = pwModel.Road;
@@ -45,6 +47,7 @@ public class PreViewModel : MonoBehaviour
             if (go != null)
             {
                 go.transform.parent = transform;
+                go.GetComponent<Puppet>().Model = PWModel;
             }
             current = PWModel;
         }
