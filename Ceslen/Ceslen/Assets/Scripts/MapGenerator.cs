@@ -321,6 +321,7 @@ public class MapGenerator : MonoBehaviour
                         yield return null;
                 }
             }
+            yield return null;
             var Paths = GameObject.FindGameObjectsWithTag("PathTrigger");
             //Bejárjuk az össze kigenerált út helyet
             foreach (var item in Paths)

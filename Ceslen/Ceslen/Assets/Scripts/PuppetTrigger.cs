@@ -6,8 +6,8 @@ using UnityEngine;
 public class PuppetTrigger : MonoBehaviour
 {
     public GameObject Puppet = null;
-    private GameObject[] connectedField = new GameObject[3];
-    private GameObject[] connectedPath = new GameObject[3];
+    public GameObject[] connectedField = new GameObject[3];
+    public GameObject[] connectedPath = new GameObject[3];
     private byte fEmpty = 0;
     private byte pEmpty = 0;
 
@@ -30,7 +30,7 @@ public class PuppetTrigger : MonoBehaviour
 
     public void AddPath(GameObject[] connectedPath)
     {
-        for (int i = 0; i < connectedPath.Length && this.connectedPath.Length < 3; i++)
+        for (int i = 0; i < connectedPath.Length && pEmpty < this.connectedPath.Length; i++)
         {
             if (this.connectedPath.Contains(connectedPath[i]))
                 continue;
