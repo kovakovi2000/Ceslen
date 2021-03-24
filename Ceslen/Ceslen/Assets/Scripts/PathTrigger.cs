@@ -6,13 +6,13 @@ using UnityEngine;
 public class PathTrigger : MonoBehaviour
 {
     public GameObject Path = null;
-    public GameObject[] connectedField = new GameObject[3];
-    public GameObject[] connectedPuppet = new GameObject[2];
+    private GameObject[] connectedField = new GameObject[3];
+    private GameObject[] connectedPuppet = new GameObject[2];
     private byte fEmpty = 0;
     private byte pEmpty = 0;
 
     public GameObject[] ConnectedField => connectedField;
-    public GameObject[] ConnectedPuppet => connectedPuppet;
+    public GameObject[] ConnectedPuppetTrigger => connectedPuppet;
     public byte FEmpty => fEmpty;
     public byte PEmpty => pEmpty;
 

@@ -42,11 +42,15 @@ public class PlaceModel : MonoBehaviour
             else
             {
                 var pt = Puppet.GetComponent<Puppet>();
-                if (pt.TouchedTrigger.gameObject.tag == "PuppetTrigger")
-                    pt.TouchedTrigger.GetComponent<PuppetTrigger>().Puppet = Puppet;
-                else
-                    pt.TouchedTrigger.GetComponent<PathTrigger>().Path = Puppet;
-                Puppet.GetComponent<CollectingBehaviour>().enabled = true;
+                try //fúra hiba jávítására szolgál ez a trycatch, ha egy bábut kihuzunk a preview-ból, de csak a hud-ra majd vissza akkor hitbát dob.
+                {
+                    if (pt.TouchedTrigger.gameObject.tag == "PuppetTrigger")
+                        pt.TouchedTrigger.GetComponent<PuppetTrigger>().Puppet = Puppet;
+                    else
+                        pt.TouchedTrigger.GetComponent<PathTrigger>().Path = Puppet;
+                    Puppet.GetComponent<CollectingBehaviour>().enabled = true;
+                }
+                catch(System.Exception) {}
             }
             Puppet = null;
         }

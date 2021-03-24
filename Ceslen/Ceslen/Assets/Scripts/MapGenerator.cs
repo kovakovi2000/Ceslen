@@ -326,7 +326,7 @@ public class MapGenerator : MonoBehaviour
             //Bejárjuk az össze kigenerált út helyet
             foreach (var item in Paths)
             {
-                var pt = item.GetComponent<PathTrigger>().ConnectedPuppet; //kikérjuk a az úthelyhez tartozó bábú helyket
+                var pt = item.GetComponent<PathTrigger>().ConnectedPuppetTrigger; //kikérjuk a az úthelyhez tartozó bábú helyket
                 for (int i = 0; i < pt.Length; i++)//majd bejárjuk
                     pt[i].GetComponent<PuppetTrigger>().AddPath(new GameObject[] { item }); //és hozzá adjuk ezekhez a bábú helyekhez a a jelenlegi út helyeket
             }

@@ -1,162 +1,203 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CollectingBehaviour : MonoBehaviour
 {
     private System.Random RND = new System.Random();
-    private int id;
-    private bool chainMaster = true;
-    private Dictionary<HexField.hexType, int> collectRate;
+    private bool clean;
+    public GameObject Master = null;
+    private int collectRate = 0;
+    private Dictionary<HexField.hexType, int> collectRateType = new Dictionary<HexField.hexType, int>();
 
-    public List<GameObject> connectedPuppet = new List<GameObject>();
-    public List<GameObject> connectedPath = new List<GameObject>();
+    private List<GameObject> connectedPuppet = new List<GameObject>();
+    private List<GameObject> connectedPath = new List<GameObject>();
+    private List<GameObject> connectedField = new List<GameObject>();
 
     public List<GameObject> ConnectedPuppet => connectedPuppet;
     public List<GameObject> ConnectedPath => connectedPath;
+    public List<GameObject> ConnectedField => connectedField;
 
-    public void AddPuppet(GameObject connectedPuppet, bool refresh = false)
+    public bool AddPuppet(GameObject connectedPuppet, bool refresh = false)
     {
-        if (!this.connectedPuppet.Contains(connectedPuppet))
+        bool re = false;
+        if (connectedPuppet != null && !this.connectedPuppet.Contains(connectedPuppet))
+        {
             this.connectedPuppet.Add(connectedPuppet);
+            re = true;
+        }
         if(refresh) refreshCollectRate();
+        return re;
     }
-    public void AddPuppet(GameObject[] connectedPuppet, bool refresh = false)
+    public bool AddPuppet(GameObject[] connectedPuppet, bool refresh = false)
     {
+        bool re = false;
         for (int i = 0; i < connectedPuppet.Length; i++)
         {
-            if (this.connectedPuppet.Contains(connectedPuppet[i]))
+            if (connectedPuppet[i] == null || this.connectedPuppet.Contains(connectedPuppet[i]))
                 continue;
 
             this.connectedPuppet.Add(connectedPuppet[i]);
+            re = true;
         }
         if(refresh) refreshCollectRate();
+        return re;
     }
-    public void AddPuppet(List<GameObject> connectedPuppet, bool refresh = false)
+    public bool AddPuppet(List<GameObject> connectedPuppet, bool refresh = false)
     {
+        bool re = false;
         foreach (var item in connectedPuppet)
         {
-            if (this.connectedPuppet.Contains(item))
+            if (item == null || this.connectedPuppet.Contains(item))
                 continue;
 
             this.connectedPuppet.Add(item);
+            re = true;
         }
         if(refresh) refreshCollectRate();
+        return re;
     }
 
-    public void AddPath(GameObject connectedPath, bool refresh = false)
+    public bool AddPath(GameObject connectedPath, bool refresh = false)
     {
-        if (!this.connectedPath.Contains(connectedPath))
+        bool re = false;
+        if (connectedPuppet != null && !this.connectedPath.Contains(connectedPath))
+        {
             this.connectedPath.Add(connectedPath);
+            re = true;
+        }
+            
         if(refresh) refreshCollectRate();
+        return re;
     }
-    public void AddPath(GameObject[] connectedPath, bool refresh = false)
+    public bool AddPath(GameObject[] connectedPath, bool refresh = false)
     {
+        bool re = false;
         for (int i = 0; i < connectedPath.Length; i++)
         {
-            if (this.connectedPath.Contains(connectedPath[i]))
+            if (connectedPath[i] == null || this.connectedPath.Contains(connectedPath[i]))
                 continue;
 
             this.connectedPath.Add(connectedPath[i]);
+            re = true;
         }
         if(refresh) refreshCollectRate();
+        return re;
     }
-    public void AddPath(List<GameObject> connectedPath, bool refresh = false)
+    public bool AddPath(List<GameObject> connectedPath, bool refresh = false)
     {
+        bool re = false;
         foreach (var item in connectedPath)
         {
-            if (this.connectedPath.Contains(item))
+            if (item == null || this.connectedPath.Contains(item))
                 continue;
 
             this.connectedPath.Add(item);
+            re = true;
         }
         if(refresh) refreshCollectRate();
+        return re;
+    }
+
+    public bool AddField(GameObject connectedField, bool refresh = false)
+    {
+        bool re = false;
+        if (connectedField != null && !this.connectedField.Contains(connectedField))
+        {
+            this.connectedField.Add(connectedField);
+            re = true;
+        }
+        if (refresh) refreshCollectRate();
+        return re;
+    }
+    public bool AddField(GameObject[] connectedField, bool refresh = false)
+    {
+        bool re = false;
+        for (int i = 0; i < connectedField.Length; i++)
+        {
+            if (connectedField[i] == null || this.connectedField.Contains(connectedField[i]))
+                continue;
+
+            this.connectedField.Add(connectedField[i]);
+            re = true;
+        }
+        if (refresh) refreshCollectRate();
+        return re;
+    }
+    public bool AddField(List<GameObject> connectedField, bool refresh = false)
+    {
+        bool re = false;
+        foreach (var item in connectedField)
+        {
+            if (item == null || this.connectedField.Contains(item))
+                continue;
+
+            this.connectedField.Add(item);
+            re = true;
+        }
+        if (refresh) refreshCollectRate();
+        return re;
     }
 
     private void refreshCollectRate()
     {
         var col = new Color((float)RND.NextDouble(), (float)RND.NextDouble(), (float)RND.NextDouble(), 1f);
-        foreach (var item in connectedPath)
-            if (item != null) item.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = col;
+        foreach (GameObject item in connectedPath)
+        {
+            AddField(item.GetComponent<Puppet>().TouchedTrigger.GetComponent<PathTrigger>().ConnectedField);
+            item.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = col;
+            var cb = item.GetComponent<CollectingBehaviour>();
+            cb.Master = gameObject;
+        }
         foreach (var item in connectedPuppet)
-            if (item != null) item.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = col;
+        {
+            var puppet = item.GetComponent<Puppet>();
+            AddField(puppet.TouchedTrigger.GetComponent<PuppetTrigger>().ConnectedField);
+            collectRate += puppet.CollectRate;
+            item.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = col;
+            var cb = item.GetComponent<CollectingBehaviour>();
+            cb.Master = gameObject;
+        }
 
+        collectRateType.Clear();
+        foreach (HexField.hexType hex in (HexField.hexType[])HexField.hexType.GetValues(typeof(HexField.hexType)))
+            collectRateType.Add(hex, 0);
+        foreach (var item in connectedField)
+            collectRateType[item.GetComponent<HexField>().HexType] += 1;
     }
     // Start is called before the first frame update
     void Start()
     {
-        //TODO Setup puppet that already exist
-        Debug.Log("PLACED");
+        Master = gameObject;
+        clean = false;
 
-
-        /* Valamiért mindig hiba és hiba és hiba, újra írom...
-        id = gameObject.GetInstanceID();
         GameObject trigger = transform.GetComponent<Puppet>().TouchedTrigger;
-        Dictionary<GameObject, bool> localPath = new Dictionary<GameObject, bool>();
-        Dictionary<GameObject, bool> localPuppet = new Dictionary<GameObject, bool>();
         if (trigger.tag == "PuppetTrigger")
         {
-            localPuppet.Add(gameObject, false);
-            foreach (var pathTrigger in trigger.GetComponent<PuppetTrigger>().ConnectedPath)
-            {
-                if (pathTrigger == null)
-                    continue;
-                GameObject Path = pathTrigger.GetComponent<PathTrigger>().Path;
-                if (Path != null)
-                    localPath.Add(Path, false);
-            }
+            AddPuppet(gameObject);
+            //A jelenlegi triggerhez csatlakozattott út triggereknek az út object-je.
+            AddPath(trigger.GetComponent<PuppetTrigger>().ConnectedPathTrigger.OfType<GameObject>().ToList().Select(x => x.GetComponent<PathTrigger>().Path).ToList());
         }
         else
         {
-            localPath.Add(gameObject, false);
-            foreach (var PuppetTrigger in trigger.GetComponent<PathTrigger>().ConnectedPuppet)
-            {
-                if (PuppetTrigger == null)
-                    continue;
-                GameObject Puppet = PuppetTrigger.GetComponent<PuppetTrigger>().Puppet;
-                if (Puppet != null)
-                    localPuppet.Add(Puppet, false);
-            }
+            AddPath(gameObject);
+            var cPuppet = trigger.GetComponent<PathTrigger>().ConnectedPuppetTrigger.ToList();
+            cPuppet.ForEach(tPuppet => AddPath(tPuppet.GetComponent<PuppetTrigger>().ConnectedPathTrigger.OfType<GameObject>().ToList().Select(tPath => tPath.GetComponent<PathTrigger>().Path).ToList()));
+            AddPuppet(cPuppet.Select(tPuppet => tPuppet.GetComponent<PuppetTrigger>().Puppet).ToList());
         }
-        Debug.Log($"localPath: {localPath.Count} | localPuppet: {localPuppet.Count}");
+
+        bool re = false;
         do
         {
-            List<GameObject> updatePath = new List<GameObject>();
-            List<GameObject> updatePuppet = new List<GameObject>();
-            foreach (var item in localPath)
-            {
-                if (item.Value)
-                    continue;
-                AddPath(item.Key);
-                foreach (var cPuppetTrigger in item.Key.GetComponent<Puppet>().TouchedTrigger.GetComponent<PathTrigger>().ConnectedPuppet)
-                {
-                    GameObject cPuppet = cPuppetTrigger.GetComponent<PuppetTrigger>().Puppet;
-                    if (!localPuppet.ContainsKey(cPuppet))
-                        localPuppet.Add(cPuppet, false);
-                }
-                updatePath.Add(item.Key);
-            }
+            re = false;
+            connectedPath.ToList().ForEach(path => { if (path != gameObject && AddPath(path.GetComponent<CollectingBehaviour>().Master.GetComponent<CollectingBehaviour>().ConnectedPath)) re = true; });
+            connectedPath.ToList().ForEach(path => { if (path != gameObject && AddPuppet(path.GetComponent<CollectingBehaviour>().Master.GetComponent<CollectingBehaviour>().ConnectedPuppet)) re = true; });
 
-            foreach (var item in localPuppet)
-            {
-                if (item.Value)
-                    continue;
-                AddPuppet(item.Key);
-                foreach (var cPathTrigger in item.Key.GetComponent<Puppet>().TouchedTrigger.GetComponent<PuppetTrigger>().ConnectedPath)
-                {
-                    GameObject cPath = cPathTrigger.GetComponent<PathTrigger>().Path;
-                    if (!localPath.ContainsKey(cPath))
-                        localPath.Add(cPath, false);
-                }
-                updatePuppet.Add(item.Key);
-            }
+            connectedPuppet.ToList().ForEach(puppet => { if (puppet != gameObject && AddPath(puppet.GetComponent<CollectingBehaviour>().Master.GetComponent<CollectingBehaviour>().ConnectedPath)) re = true; });
+            connectedPuppet.ToList().ForEach(puppet => { if (puppet != gameObject && AddPuppet(puppet.GetComponent<CollectingBehaviour>().Master.GetComponent<CollectingBehaviour>().ConnectedPuppet)) re = true; });
+        } while (re);
 
-            foreach (var item in updatePath)
-                localPath[item] = true;
-            foreach (var item in updatePuppet)
-                localPuppet[item] = true;
-        } while (localPath.ContainsValue(false) || localPuppet.ContainsValue(false));
-        */
         refreshCollectRate();
     }
 
@@ -164,5 +205,18 @@ public class CollectingBehaviour : MonoBehaviour
     void FixedUpdate()
     {
         //TODO Add resource at ticks
+        if (Master == gameObject)
+        {
+
+        }
+        else
+        {
+            if (!clean)
+            {
+                connectedPath.Clear();
+                connectedPuppet.Clear();
+                clean = true;
+            }
+        }
     }
 }
