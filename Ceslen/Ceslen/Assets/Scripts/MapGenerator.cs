@@ -54,6 +54,7 @@ public class MapGenerator : MonoBehaviour
     public Camera MainCamera;
     public Camera MiniMapCamera;
     public RenderTexture MiniMapOverLay;
+    public GameObject PlayersList;
 
     private static System.Random RND = new System.Random();
     
@@ -105,6 +106,7 @@ public class MapGenerator : MonoBehaviour
             Camera MainCamera,
             Camera MiniMapCamera,
             RenderTexture MiniMapOverLay,
+            GameObject PlayersList,
             bool SlowGenerateIland = false,
             bool SlowGenerateIlandHexagon = false,
             bool SlowGenerateIlandHexagonLayer = false,
@@ -373,6 +375,7 @@ public class MapGenerator : MonoBehaviour
 
             transform.GetComponent<MapVisibility>().enabled = true;
             MainCamera.GetComponent<SideMoveCamera>().enabled = true;
+            PlayersList.SetActive(true);
         }
 
         private static HexField.hexType GenerateType(List<Cor> HexAround)
@@ -510,6 +513,7 @@ public class MapGenerator : MonoBehaviour
             MainCamera,
             MiniMapCamera,
             MiniMapOverLay,
+            PlayersList,
             SG_Iland,
             SG_IlandHexagon,
             SG_IlandHexagonLayer,

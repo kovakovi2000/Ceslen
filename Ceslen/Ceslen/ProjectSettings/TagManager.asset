@@ -8,6 +8,8 @@ TagManager:
   - PuppetTrigger
   - PathTrigger
   - Map
+  - CDisplay
+  - Global
   layers:
   - Default
   - TransparentFX

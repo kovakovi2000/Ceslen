@@ -60,7 +60,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TouchedTrigger: {fileID: 0}
-  placed: 0
 --- !u!114 &2934437381446274752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,6 +72,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2d33d58f0b01774eab5910f6137e18e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Owner: {fileID: 1920360147833933338, guid: fd145bae036088f45a32e2819f649f7e, type: 3}
+  Master: {fileID: 0}
 --- !u!1 &7433079536082574808
 GameObject:
   m_ObjectHideFlags: 0

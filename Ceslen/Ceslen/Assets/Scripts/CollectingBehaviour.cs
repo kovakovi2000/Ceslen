@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class CollectingBehaviour : MonoBehaviour
 {
+    public GameObject Owner;
     private System.Random RND = new System.Random();
     private bool clean;
     public GameObject Master = null;
@@ -14,6 +15,7 @@ public class CollectingBehaviour : MonoBehaviour
     private List<GameObject> connectedPuppet = new List<GameObject>();
     private List<GameObject> connectedPath = new List<GameObject>();
     private List<GameObject> connectedField = new List<GameObject>();
+    private List<GlobalBehaviour.TickHandler> Events = new List<GlobalBehaviour.TickHandler>();
 
     public List<GameObject> ConnectedPuppet => connectedPuppet;
     public List<GameObject> ConnectedPath => connectedPath;
@@ -199,22 +201,36 @@ public class CollectingBehaviour : MonoBehaviour
         } while (re);
 
         refreshCollectRate();
+        var Global = GameObject.FindGameObjectWithTag("Global").GetComponent<GlobalBehaviour>();
+        foreach (HexField.hexType hex in (HexField.hexType[])HexField.hexType.GetValues(typeof(HexField.hexType)))
+        {
+            GlobalBehaviour.TickHandler handler = ((sender, e) => Owner.GetComponent<User>().AddCollected(hex, collectRateType[hex] * collectRate));
+            Global.eSeconds += handler;
+            Events.Add(handler);
+        }
+            
     }
-
+    
     // Update is called once per frame
     void FixedUpdate()
     {
         //TODO Add resource at ticks
         if (Master == gameObject)
         {
+            
 
         }
         else
         {
             if (!clean)
             {
+                var Global = GameObject.FindGameObjectWithTag("Global").GetComponent<GlobalBehaviour>();
+
+                foreach (var e in Events)
+                    Global.eSeconds -= e;
                 connectedPath.Clear();
                 connectedPuppet.Clear();
+                ConnectedField.Clear();
                 clean = true;
             }
         }
